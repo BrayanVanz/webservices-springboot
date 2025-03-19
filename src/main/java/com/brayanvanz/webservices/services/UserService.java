@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.brayanvanz.webservices.entities.User;
 import com.brayanvanz.webservices.repositories.UserRepository;
+import com.brayanvanz.webservices.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService {
@@ -20,7 +21,7 @@ public class UserService {
 
     public User findById(Long Id) {
         Optional<User> user = userRepository.findById(Id);
-        return user.get();
+        return user.orElseThrow(() -> new ResourceNotFoundException(Id));
     }
 
     public User insert(User user) {
